@@ -1,5 +1,3 @@
-// server.js
-
 const WebSocket = require('ws');
 var mysql = require('mysql');
 require('dotenv').config();
@@ -21,18 +19,17 @@ wss.on('connection', ws => {
   ws.on('message', message => {
   
     var jsonData = JSON.parse(message);
-    var profileId = jsonData.appId; //Put profileID in place for appId since I have no use for that.
+    const { appId: profileId } = jsonData;
     console.log(`Connection from ${profileId}`);
     
-    if(jsonData.hasOwnProperty("timeOnPageMs")) {
+    if("timeOnPageMs" in jsonData) {
     
-      var timeOn = jsonData.timeOnPageMs;
-      var page = jsonData.pageName;
-      
+      const { timeOn, page } = jsonData;
+
       var sql = "UPDATE `analytics` SET `time_active` = time_active + " + timeOn + " WHERE `userId` = '" + profileId + "' L$
       con.query(sql, function(err, result, fields) {
         if (err) throw err;
-        console.log(profileId + " logged " + (timeOn / 1000) + " seconds on page " + page);
+        console.log(`${profileId} logged ${(timeOn / 1000)} seconds on page ${page}`);
       });
       
     }
