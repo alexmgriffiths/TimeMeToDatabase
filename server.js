@@ -29,3 +29,6 @@ wss.on('connection', ws => {
     }
   });
 });
+setInterval(function() {
+  connection.query("SELECT 1");
+}, 5000);
