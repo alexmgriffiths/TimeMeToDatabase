@@ -2,7 +2,6 @@ const WebSocket = require('ws');
 const mysql = require('mysql');
 require('dotenv').config();
 
-
 const { DB_HOST: host,  DB_USER: user, DB_PASS: password, DB_NAME: database } = process.env;
 const pool = mysql.createPool({ host, user, password, database });
 
